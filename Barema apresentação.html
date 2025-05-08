@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barema de Avaliação - APS Arapiraca</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            max-width: 900px;
+            margin: 20px auto;
+        }
+        h1, h2 {
+            color: #0056b3;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th {
+            background-color: #e9ecef;
+            font-weight: bold;
+        }
+        input[type="number"], input[type="text"], select, textarea {
+            width: calc(100% - 12px);
+            padding: 8px;
+            margin: 2px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        input[type="number"] {
+            text-align: center;
+            width: 80px;
+        }
+        textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+        .section-title {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 15px;
+            font-size: 1.2em;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
+        .info-table td:first-child {
+            width: 220px;
+            font-weight: bold;
+            background-color: #f8f9fa;
+        }
+        .criteria-table td:first-child {
+            width: 55%;
+        }
+        .criteria-table td:nth-child(2) {
+            width: 15%;
+            text-align: center;
+        }
+        .criteria-table td:nth-child(3) {
+            width: 30%;
+        }
+        .final-score {
+            font-size: 1.6em;
+            font-weight: bold;
+            color: #28a745;
+            text-align: right;
+        }
+        .button-container {
+            text-align: center;
+            margin-top: 25px;
+            margin-bottom: 25px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        button.save-btn {
+            background-color: #28a745;
+        }
+        button.save-btn:hover {
+            background-color: #1e7e34;
+        }
+        button.clear-btn {
+            background-color: #dc3545;
+        }
+        button.clear-btn:hover {
+            background-color: #c82333;
+        }
+        button.print-btn {
+            background-color: #17a2b8; /* Azul informativo */
+        }
+        button.print-btn:hover {
+            background-color: #117a8b;
+        }
+        .note {
+            font-style: italic;
+            color: #555;
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #eef;
+            border-left: 3px solid #007bff;
+        }
+        #summaryTable th, #summaryTable td {
+            text-align: center;
+        }
+        #summaryTable button {
+            padding: 5px 10px;
+            font-size: 0.9em;
+            margin: 2px;
+        }
+        #summaryTable .load-btn {
+            background-color: #17a2b8;
+        }
+        #summaryTable .load-btn:hover {
+            background-color: #117a8b;
+        }
+        #summaryTable .delete-btn {
+            background-color: #ffc107;
+            color: #333;
+        }
+        #summaryTable .delete-btn:hover {
+            background-color: #e0a800;
+        }
+
+        /* Estilos para Impressão */
+        @media print {
+            body {
+                margin: 20px !important; /* Adiciona margem para impressão */
+                padding: 0 !important;
+                background-color: #fff !important;
+                color: #000 !important;
+            }
+            .container {
+                box-shadow: none !important;
+                border: none !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+            h1, h2, .section-title {
+                border-bottom: 1px solid #ccc !important;
+                color: #000 !important;
+                background-color: transparent !important;
+                padding-bottom: 5px;
+                margin-top: 15px;
+                margin-bottom: 10px;
+            }
+            h1 { font-size: 18pt; }
+            h2, .section-title { font-size: 14pt; }
+
+            table {
+                font-size: 9pt !important; /* Reduzir um pouco para caber mais */
+                page-break-inside: auto !important;
+                width: 100% !important;
+                border-collapse: collapse !important;
+            }
+            tr {
+                page-break-inside: avoid !important;
+                page-break-after: auto !important;
+            }
+            th, td {
+                border: 1px solid #999 !important; /* Bordas mais visíveis na impressão */
+                padding: 4px !important;
+                word-wrap: break-word; /* Quebra palavras longas */
+            }
+            thead {
+                display: table-header-group !important; /* Repetir cabeçalhos em cada página */
+            }
+            input[type="text"],
+            input[type="number"],
+            select,
+            textarea {
+                border: 1px solid #ccc !important;
+                background-color: #fff !important;
+                color: #000 !important;
+                -webkit-print-color-adjust: exact !important;
+                color-adjust: exact !important;
+                padding: 2px !important;
+                box-shadow: none !important;
+                width: 98% !important; /* Ajustar para não transbordar */
+                font-size: 9pt !important;
+            }
+            input[type="number"] {
+                -moz-appearance: textfield !important; /* Firefox */
+            }
+            input::-webkit-outer-spin-button,
+            input::-webkit-inner-spin-button {
+              -webkit-appearance: none !important;
+              margin: 0 !important;
+            }
+            select { /* Tenta mostrar o valor selecionado */
+                appearance: none;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                background-image: none !important; /* Remove a seta */
+            }
+            textarea {
+                overflow: visible !important; /* Garante que todo o texto seja impresso */
+                height: auto !important; /* Ajusta a altura ao conteúdo */
+            }
+            .final-score {
+                font-size: 1.2em !important;
+            }
+            .info-table td:first-child {
+                 background-color: #f0f0f0 !important; /* Fundo leve para labels */
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>BAREMA DE AVALIAÇÃO OTIMIZADO – APS ARAPIRACA</h1>
+
+    <table class="info-table">
+        <tr>
+            <td>Dupla nº:</td>
+            <td><input type="text" id="dupla_n" placeholder="Ex: 01"></td>
+        </tr>
+        <tr>
+            <td>Estudante 1:</td>
+            <td><input type="text" id="estudante1"></td>
+        </tr>
+        <tr>
+            <td>Estudante 2:</td>
+            <td><input type="text" id="estudante2"></td>
+        </tr>
+        <tr>
+            <td>UBS Pesquisada:</td>
+            <td><input type="text" id="ubs_pesquisada"></td>
+        </tr>
+        <tr>
+            <td>Presença de Residentes MFC?</td>
+            <td>
+                <select id="residentes_mfc">
+                    <option value="">Selecione</option>
+                    <option value="sim">Sim</option>
+                    <option value="nao">Não</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Data da Apresentação:</td>
+            <td>
+                <select id="data_apresentacao">
+                    <option value="">Selecione</option>
+                    <option value="08/05">08/05</option>
+                    <option value="15/05">15/05</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Apresentação Compartilhada com Professores:</td>
+            <td>
+                <select id="apresentacao_compartilhada">
+                    <option value="">Selecione</option>
+                    <option value="sim">Sim</option>
+                    <option value="nao">Não</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Avaliador(a):</td>
+            <td><input type="text" id="avaliador"></td>
+        </tr>
+    </table>
+
+    <p class="note no-print">Instruções: Avalie cada critério utilizando uma escala de 1 (Insuficiente) a 5 (Excelente). As notas serão calculadas automaticamente. Utilize o botão "Salvar Avaliação" para guardar os dados desta dupla. As avaliações salvas aparecerão na tabela de resumo abaixo.</p>
+
+    <div class="section-title">I. TRABALHO DE CAMPO E ANÁLISE DOS DADOS (Peso: 60%)</div>
+    <table class="criteria-table" id="tabelaTrabalho">
+        <thead>
+            <tr>
+                <th>Critério</th>
+                <th>Pontuação (1-5)</th>
+                <th>Observações Breves</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td colspan="3"><strong>1. Coleta e Amostra:</strong></td></tr>
+            <tr>
+                <td>1.1. Quantitativo de participantes adequado. (Nº informado: <input type="number" id="quant_participantes_info" style="width: 60px; display: inline-block;" oninput="calcularNotas()">)</td>
+                <td><input type="number" min="1" max="5" class="nota-trabalho" oninput="calcularNotas()"></td>
+                <td><input type="text" class="obs-trabalho"></td>
+            </tr>
+            <tr>
+                <td>1.2. Clareza na apresentação do perfil socioeconômico.</td>
+                <td><input type="number" min="1" max="5" class="nota-trabalho" oninput="calcularNotas()"></td>
+                <td><input type="text" class="obs-trabalho"></td>
+            </tr>
+            <tr><td colspan="3"><strong>2. Análise do Questionário (Qualidade da interpretação para cada pergunta-chave):</strong></td></tr>
+            <tr>
+                <td>2.1. Visita do ACS (Q1)</td>
+                <td><input type="number" min="1" max="5" class="nota-trabalho" oninput="calcularNotas()"></td>
+                <td><input type="text" class="obs-trabalho"></td>
+            </tr>
+            <tr>
+                <td>2.2. Marcação de consulta na UBS (Q2)</td>
+                <td><input type="number" min="1" max="5" class="nota-trabalho" oninput="calcularNotas()"></td>
+                <td><input type="text" class="obs-trabalho"></td>
+            </tr>
+            <tr>
+                <td>2.3. Acolhimento sem marcação (Q3)</td>
+                <td><input type="number" min="1" max="5" class="nota-trabalho" oninput="calcularNotas()"></td>
+                <td><input type="text" class="obs-trabalho"></td>
+            </tr>
+            <tr>
+                <td>2.4. Acolhimento em urgências (Q4)</td>
+                <td><input type="number" min="1" max="5" class="nota-trabalho" oninput="calcularNotas()"></td>
+                <td><input type="text" class="obs-trabalho"></td>
+            </tr>
+            <tr>
+                <td>2.5. Satisfação com acesso à UBS (Q5)</td>
+                <td><input type="number" min="1" max="5" class="nota-trabalho" oninput="calcularNotas()"></td>
+                <td><input type="text" class="obs-trabalho"></td>
+            </tr>
+            <tr>
+                <td>2.6. Busca de soluções pelos profissionais (Q6)</td>
+                <td><input type="number" min="1" max="5" class="nota-trabalho" oninput="calcularNotas()"></td>
+                <td><input type="text" class="obs-trabalho"></td>
+            </tr>
+            <tr>
+                <td>2.7. Satisfação com marcação de exames (Q7)</td>
+                <td><input type="number" min="1" max="5" class="nota-trabalho" oninput="calcularNotas()"></td>
+                <td><input type="text" class="obs-trabalho"></td>
+            </tr>
+            <tr>
+                <td>2.8. Satisfação com marcação para especialista (presencial/remoto) (Q8)</td>
+                <td><input type="number" min="1" max="5" class="nota-trabalho" oninput="calcularNotas()"></td>
+                <td><input type="text" class="obs-trabalho"></td>
+            </tr>
+            <tr>
+                <td>2.9. Conhecimento/acesso ao gerente da UBS (Q9)</td>
+                <td><input type="number" min="1" max="5" class="nota-trabalho" oninput="calcularNotas()"></td>
+                <td><input type="text" class="obs-trabalho"></td>
+            </tr>
+            <tr>
+                <td>2.10. Atendimento de necessidades de medicamentos (Q10)</td>
+                <td><input type="number" min="1" max="5" class="nota-trabalho" oninput="calcularNotas()"></td>
+                <td><input type="text" class="obs-trabalho"></td>
+            </tr>
+            <tr>
+                <td>2.11. Identificação e justificativa do problema prioritário (Q11)</td>
+                <td><input type="number" min="1" max="5" class="nota-trabalho" oninput="calcularNotas()"></td>
+                <td><input type="text" class="obs-trabalho"></td>
+            </tr>
+            <tr><td colspan="3"><strong>3. Análise Geral e Discussão:</strong></td></tr>
+            <tr>
+                <td>3.1. Profundidade da análise e interpretação dos dados.</td>
+                <td><input type="number" min="1" max="5" class="nota-trabalho" oninput="calcularNotas()"></td>
+                <td><input type="text" class="obs-trabalho"></td>
+            </tr>
+            <tr>
+                <td>3.2. Discussão crítica considerando particularidades da UBS.</td>
+                <td><input type="number" min="1" max="5" class="nota-trabalho" oninput="calcularNotas()"></td>
+                <td><input type="text" class="obs-trabalho"></td>
+            </tr>
+            <tr>
+                <td>3.3. Identificação de pontos fortes e fragilidades da gestão da clínica.</td>
+                <td><input type="number" min="1" max="5" class="nota-trabalho" oninput="calcularNotas()"></td>
+                <td><input type="text" class="obs-trabalho"></td>
+            </tr>
+            <tr><td colspan="3"><strong>4. Aspectos Subjetivos Percebidos pelos Estudantes:</strong></td></tr>
+            <tr>
+                <td>4.1. Riqueza e relevância das observações (dificuldades, facilidades, impressões).</td>
+                <td><input type="number" min="1" max="5" class="nota-trabalho" oninput="calcularNotas()"></td>
+                <td><input type="text" class="obs-trabalho"></td>
+            </tr>
+            <tr>
+                <td colspan="1" style="text-align: right; font-weight: bold;">Média Trabalho de Campo e Análise:</td>
+                <td id="mediaTrabalho" style="font-weight: bold; text-align: center;">0.00</td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="section-title">II. APRESENTAÇÃO ORAL (Peso: 40%)</div>
+    <table class="criteria-table" id="tabelaApresentacao">
+        <thead>
+            <tr>
+                <th>Critério</th>
+                <th>Pontuação (1-5)</th>
+                <th>Observações Breves</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td colspan="3"><strong>1. Clareza e Organização:</strong></td></tr>
+            <tr>
+                <td>1.1. Estrutura lógica e objetividade.</td>
+                <td><input type="number" min="1" max="5" class="nota-apresentacao" oninput="calcularNotas()"></td>
+                <td><input type="text" class="obs-apresentacao"></td>
+            </tr>
+            <tr>
+                <td>1.2. Clareza nos objetivos e metodologia.</td>
+                <td><input type="number" min="1" max="5" class="nota-apresentacao" oninput="calcularNotas()"></td>
+                <td><input type="text" class="obs-apresentacao"></td>
+            </tr>
+            <tr><td colspan="3"><strong>2. Domínio do Conteúdo:</strong></td></tr>
+            <tr>
+                <td>2.1. Segurança e conhecimento sobre o tema e dados.</td>
+                <td><input type="number" min="1" max="5" class="nota-apresentacao" oninput="calcularNotas()"></td>
+                <td><input type="text" class="obs-apresentacao"></td>
+            </tr>
+            <tr>
+                <td>2.2. Capacidade de discussão crítica e respostas às perguntas.</td>
+                <td><input type="number" min="1" max="5" class="nota-apresentacao" oninput="calcularNotas()"></td>
+                <td><input type="text" class="obs-apresentacao"></td>
+            </tr>
+            <tr><td colspan="3"><strong>3. Recursos Visuais:</strong></td></tr>
+            <tr>
+                <td>3.1. Qualidade e clareza dos slides (sem poluição visual).</td>
+                <td><input type="number" min="1" max="5" class="nota-apresentacao" oninput="calcularNotas()"></td>
+                <td><input type="text" class="obs-apresentacao"></td>
+            </tr>
+            <tr>
+                <td>3.2. Uso eficaz de gráficos/tabelas.</td>
+                <td><input type="number" min="1" max="5" class="nota-apresentacao" oninput="calcularNotas()"></td>
+                <td><input type="text" class="obs-apresentacao"></td>
+            </tr>
+            <tr><td colspan="3"><strong>4. Comunicação e Postura:</strong></td></tr>
+            <tr>
+                <td>4.1. Linguagem clara, dicção, volume.</td>
+                <td><input type="number" min="1" max="5" class="nota-apresentacao" oninput="calcularNotas()"></td>
+                <td><input type="text" class="obs-apresentacao"></td>
+            </tr>
+            <tr>
+                <td>4.2. Postura profissional, contato visual, engajamento.</td>
+                <td><input type="number" min="1" max="5" class="nota-apresentacao" oninput="calcularNotas()"></td>
+                <td><input type="text" class="obs-apresentacao"></td>
+            </tr>
+            <tr>
+                <td>4.3. Distribuição equilibrada da fala na dupla.</td>
+                <td><input type="number" min="1" max="5" class="nota-apresentacao" oninput="calcularNotas()"></td>
+                <td><input type="text" class="obs-apresentacao"></td>
+            </tr>
+            <tr><td colspan="3"><strong>5. Gestão do Tempo:</strong></td></tr>
+            <tr>
+                <td>5.1. Adequação ao tempo estipulado.</td>
+                <td><input type="number" min="1" max="5" class="nota-apresentacao" oninput="calcularNotas()"></td>
+                <td><input type="text" class="obs-apresentacao"></td>
+            </tr>
+            <tr>
+                <td colspan="1" style="text-align: right; font-weight: bold;">Média Apresentação Oral:</td>
+                <td id="mediaApresentacao" style="font-weight: bold; text-align: center;">0.00</td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="section-title">III. FEEDBACK GERAL</div>
+    <table>
+        <tr>
+            <td style="font-weight: bold;">Quantitativo Total de Participantes (informado pela dupla):</td>
+            <td id="quant_participantes_final">0</td>
+        </tr>
+        <tr>
+            <td colspan="2" style="font-weight: bold;">Aspectos Subjetivos Relevantes (Relatados pelos estudantes):</td>
+        </tr>
+        <tr>
+            <td colspan="2"><textarea id="aspectos_subjetivos" rows="4"></textarea></td>
+        </tr>
+        <tr>
+            <td colspan="2" style="font-weight: bold;">PONTOS POSITIVOS GERAIS:</td>
+        </tr>
+        <tr>
+            <td colspan="2"><textarea id="pontos_positivos" rows="4"></textarea></td>
+        </tr>
+        <tr>
+            <td colspan="2" style="font-weight: bold;">PONTOS A MELHORAR:</td>
+        </tr>
+        <tr>
+            <td colspan="2"><textarea id="pontos_melhorar" rows="4"></textarea></td>
+        </tr>
+        <tr>
+            <td style="font-weight: bold; font-size: 1.2em;">NOTA FINAL:</td>
+            <td id="notaFinal" class="final-score">0.00</td>
+        </tr>
+    </table>
+
+    <div class="button-container no-print">
+        <button onclick="calcularNotas()">Calcular Notas</button>
+        <button class="save-btn" onclick="salvarAvaliacao()">Salvar Avaliação</button>
+        <button id="imprimirBtn" class="print-btn" onclick="imprimirAvaliacao()" style="display: none;">Imprimir PDF</button>
+        <button class="clear-btn" onclick="limparFormulario()">Limpar Formulário</button>
+    </div>
+
+    <div class="section-title no-print">Resumo das Avaliações Salvas</div>
+    <table id="summaryTable" class="no-print">
+        <thead>
+            <tr>
+                <th>Dupla Nº</th>
+                <th>UBS</th>
+                <th>Média Trabalho</th>
+                <th>Média Apresentação</th>
+                <th>Nota Final</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody id="summaryTableBody">
+            </tbody>
+    </table>
+
+    <div class="section-title no-print">Considerações para o Avaliador:</div>
+    <ul class="no-print">
+        <li>Contextualização da UBS: Lembre-se que cada UBS possui um contexto único (equipe, comunidade, infraestrutura, presença ou não de residentes). Incentive os alunos a considerarem essas especificidades em suas análises e discussões.</li>
+        <li>Processo de Aprendizagem: Valorize o processo de aprendizagem dos estudantes, incluindo a identificação de desafios na coleta de dados e a capacidade de reflexão crítica sobre os resultados, mesmo que estes apontem para dificuldades na unidade.</li>
+        <li>Contribuição da Pesquisa: Encoraje a reflexão sobre como os achados da pesquisa podem subsidiar discussões e potenciais melhorias na gestão da clínica e nos serviços ofertados pela APS em Arapiraca.</li>
+        <li>Feedback Construtivo: Ao preencher os campos de "Aspectos Positivos" e "Aspectos a Melhorar", procure ser específico e oferecer um feedback que contribua para o desenvolvimento dos alunos.</li>
+    </ul>
+
+</div>
+
+<script>
+    const STORAGE_KEY_PREFIX = 'avaliacao_aps_';
+
+    // Função para calcular as médias e a nota final
+    function calcularNotas() {
+        let somaTrabalho = 0;
+        let countTrabalho = 0;
+        document.querySelectorAll('.nota-trabalho').forEach(input => {
+            if (input.value && !isNaN(parseFloat(input.value))) {
+                somaTrabalho += parseFloat(input.value);
+                countTrabalho++;
+            }
+        });
+        let mediaTrabalho = countTrabalho > 0 ? (somaTrabalho / countTrabalho) : 0;
+        document.getElementById('mediaTrabalho').textContent = mediaTrabalho.toFixed(2);
+
+        let somaApresentacao = 0;
+        let countApresentacao = 0;
+        document.querySelectorAll('.nota-apresentacao').forEach(input => {
+            if (input.value && !isNaN(parseFloat(input.value))) {
+                somaApresentacao += parseFloat(input.value);
+                countApresentacao++;
+            }
+        });
+        let mediaApresentacao = countApresentacao > 0 ? (somaApresentacao / countApresentacao) : 0;
+        document.getElementById('mediaApresentacao').textContent = mediaApresentacao.toFixed(2);
+
+        let notaFinal = (mediaTrabalho * 0.6) + (mediaApresentacao * 0.4);
+        document.getElementById('notaFinal').textContent = notaFinal.toFixed(2);
+
+        document.getElementById('quant_participantes_final').textContent = document.getElementById('quant_participantes_info').value || '0';
+        
+        return { mediaTrabalho, mediaApresentacao, notaFinal };
+    }
+
+    // Função para limpar o formulário (não limpa os dados salvos)
+    function limparFormulario() {
+        document.getElementById('dupla_n').value = '';
+        document.getElementById('estudante1').value = '';
+        document.getElementById('estudante2').value = '';
+        document.getElementById('ubs_pesquisada').value = '';
+        document.getElementById('residentes_mfc').value = '';
+        document.getElementById('data_apresentacao').value = '';
+        document.getElementById('apresentacao_compartilhada').value = '';
+        document.getElementById('avaliador').value = '';
+        document.getElementById('quant_participantes_info').value = '';
+
+        document.querySelectorAll('#tabelaTrabalho input[type="number"], #tabelaTrabalho input[type="text"]').forEach(input => input.value = '');
+        document.querySelectorAll('#tabelaApresentacao input[type="number"], #tabelaApresentacao input[type="text"]').forEach(input => input.value = '');
+        
+        document.getElementById('aspectos_subjetivos').value = '';
+        document.getElementById('pontos_positivos').value = '';
+        document.getElementById('pontos_melhorar').value = '';
+
+        document.getElementById('imprimirBtn').style.display = 'none'; // Oculta o botão de imprimir
+        calcularNotas(); // Reseta os campos de média e nota final para 0.00
+        document.getElementById('dupla_n').focus(); // Foca no primeiro campo para nova entrada
+    }
+
+    // Função para salvar a avaliação atual no localStorage
+    function salvarAvaliacao() {
+        const duplaN = document.getElementById('dupla_n').value.trim();
+        if (!duplaN) {
+            alert("Por favor, informe o Número da Dupla para salvar.");
+            return;
+        }
+
+        const notasCalculadas = calcularNotas(); 
+
+        const avaliacaoData = {
+            dupla_n: duplaN,
+            estudante1: document.getElementById('estudante1').value,
+            estudante2: document.getElementById('estudante2').value,
+            ubs_pesquisada: document.getElementById('ubs_pesquisada').value,
+            residentes_mfc: document.getElementById('residentes_mfc').value,
+            data_apresentacao: document.getElementById('data_apresentacao').value,
+            apresentacao_compartilhada: document.getElementById('apresentacao_compartilhada').value,
+            avaliador: document.getElementById('avaliador').value,
+            quant_participantes_info: document.getElementById('quant_participantes_info').value,
+            notasTrabalho: [],
+            notasApresentacao: [],
+            aspectos_subjetivos: document.getElementById('aspectos_subjetivos').value,
+            pontos_positivos: document.getElementById('pontos_positivos').value,
+            pontos_melhorar: document.getElementById('pontos_melhorar').value,
+            mediaTrabalho: notasCalculadas.mediaTrabalho.toFixed(2),
+            mediaApresentacao: notasCalculadas.mediaApresentacao.toFixed(2),
+            notaFinal: notasCalculadas.notaFinal.toFixed(2)
+        };
+
+        const scoreInputsTrabalho = document.querySelectorAll('#tabelaTrabalho .nota-trabalho');
+        const obsInputsTrabalho = document.querySelectorAll('#tabelaTrabalho .obs-trabalho');
+        scoreInputsTrabalho.forEach((input, index) => {
+            avaliacaoData.notasTrabalho.push({
+                score: input.value,
+                obs: obsInputsTrabalho[index] ? obsInputsTrabalho[index].value : ''
+            });
+        });
+
+        const scoreInputsApresentacao = document.querySelectorAll('#tabelaApresentacao .nota-apresentacao');
+        const obsInputsApresentacao = document.querySelectorAll('#tabelaApresentacao .obs-apresentacao');
+        scoreInputsApresentacao.forEach((input, index) => {
+            avaliacaoData.notasApresentacao.push({
+                score: input.value,
+                obs: obsInputsApresentacao[index] ? obsInputsApresentacao[index].value : ''
+            });
+        });
+        
+        try {
+            localStorage.setItem(STORAGE_KEY_PREFIX + duplaN, JSON.stringify(avaliacaoData));
+            alert(`Avaliação da Dupla ${duplaN} salva com sucesso!`);
+            document.getElementById('imprimirBtn').style.display = 'inline-block'; // Mostra o botão de imprimir
+            atualizarTabelaResumo();
+            // limparFormulario(); // Descomente se quiser limpar após salvar
+        } catch (e) {
+            console.error("Erro ao salvar no localStorage:", e);
+            alert("Erro ao salvar a avaliação. Verifique se o armazenamento local está habilitado e não está cheio.");
+        }
+    }
+
+    // Função para carregar uma avaliação salva para o formulário
+    function carregarAvaliacao(key) {
+        const dadosSalvos = localStorage.getItem(key);
+        if (dadosSalvos) {
+            const avaliacaoData = JSON.parse(dadosSalvos);
+
+            document.getElementById('dupla_n').value = avaliacaoData.dupla_n;
+            document.getElementById('estudante1').value = avaliacaoData.estudante1;
+            document.getElementById('estudante2').value = avaliacaoData.estudante2;
+            document.getElementById('ubs_pesquisada').value = avaliacaoData.ubs_pesquisada;
+            document.getElementById('residentes_mfc').value = avaliacaoData.residentes_mfc;
+            document.getElementById('data_apresentacao').value = avaliacaoData.data_apresentacao;
+            document.getElementById('apresentacao_compartilhada').value = avaliacaoData.apresentacao_compartilhada;
+            document.getElementById('avaliador').value = avaliacaoData.avaliador;
+            document.getElementById('quant_participantes_info').value = avaliacaoData.quant_participantes_info;
+
+            const scoreInputsTrabalho = document.querySelectorAll('#tabelaTrabalho .nota-trabalho');
+            const obsInputsTrabalho = document.querySelectorAll('#tabelaTrabalho .obs-trabalho');
+            avaliacaoData.notasTrabalho.forEach((item, index) => {
+                if (scoreInputsTrabalho[index]) scoreInputsTrabalho[index].value = item.score;
+                if (obsInputsTrabalho[index]) obsInputsTrabalho[index].value = item.obs;
+            });
+
+            const scoreInputsApresentacao = document.querySelectorAll('#tabelaApresentacao .nota-apresentacao');
+            const obsInputsApresentacao = document.querySelectorAll('#tabelaApresentacao .obs-apresentacao');
+            avaliacaoData.notasApresentacao.forEach((item, index) => {
+                if (scoreInputsApresentacao[index]) scoreInputsApresentacao[index].value = item.score;
+                if (obsInputsApresentacao[index]) obsInputsApresentacao[index].value = item.obs;
+            });
+
+            document.getElementById('aspectos_subjetivos').value = avaliacaoData.aspectos_subjetivos;
+            document.getElementById('pontos_positivos').value = avaliacaoData.pontos_positivos;
+            document.getElementById('pontos_melhorar').value = avaliacaoData.pontos_melhorar;
+
+            calcularNotas(); 
+            document.getElementById('imprimirBtn').style.display = 'inline-block'; // Mostra o botão de imprimir
+            alert(`Avaliação da Dupla ${avaliacaoData.dupla_n} carregada para edição.`);
+        }
+    }
+
+    // Função para excluir uma avaliação salva
+    function excluirAvaliacao(key) {
+        if (confirm(`Tem certeza que deseja excluir a avaliação salva para a Dupla ${key.replace(STORAGE_KEY_PREFIX, '')}? Esta ação não pode ser desfeita.`)) {
+            localStorage.removeItem(key);
+            atualizarTabelaResumo();
+            alert("Avaliação excluída.");
+        }
+    }
+
+    // Função para atualizar a tabela de resumo com as avaliações salvas
+    function atualizarTabelaResumo() {
+        const tbody = document.getElementById('summaryTableBody');
+        tbody.innerHTML = ''; 
+
+        const avaliacoes = [];
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key.startsWith(STORAGE_KEY_PREFIX)) {
+                try {
+                    const avaliacao = JSON.parse(localStorage.getItem(key));
+                    avaliacoes.push(avaliacao);
+                } catch (e) {
+                    console.error(`Erro ao parsear dados do localStorage para a chave ${key}:`, e);
+                }
+            }
+        }
+
+        avaliacoes.sort((a, b) => {
+            const numA = parseInt(a.dupla_n, 10);
+            const numB = parseInt(b.dupla_n, 10);
+            if (!isNaN(numA) && !isNaN(numB)) {
+                return numA - numB;
+            }
+            return a.dupla_n.localeCompare(b.dupla_n);
+        });
+
+        if (avaliacoes.length === 0) {
+            const tr = tbody.insertRow();
+            const td = tr.insertCell();
+            td.colSpan = 6;
+            td.textContent = "Nenhuma avaliação salva ainda.";
+            td.style.textAlign = "center";
+        } else {
+            avaliacoes.forEach(avaliacao => {
+                const tr = tbody.insertRow();
+                tr.insertCell().textContent = avaliacao.dupla_n || 'N/A';
+                tr.insertCell().textContent = avaliacao.ubs_pesquisada || 'N/A';
+                tr.insertCell().textContent = avaliacao.mediaTrabalho || '0.00';
+                tr.insertCell().textContent = avaliacao.mediaApresentacao || '0.00';
+                tr.insertCell().textContent = avaliacao.notaFinal || '0.00';
+                
+                const actionsCell = tr.insertCell();
+                const loadButton = document.createElement('button');
+                loadButton.textContent = 'Carregar';
+                loadButton.className = 'load-btn';
+                loadButton.onclick = function() { carregarAvaliacao(STORAGE_KEY_PREFIX + avaliacao.dupla_n); };
+                actionsCell.appendChild(loadButton);
+
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Excluir';
+                deleteButton.className = 'delete-btn';
+                deleteButton.onclick = function() { excluirAvaliacao(STORAGE_KEY_PREFIX + avaliacao.dupla_n); };
+                actionsCell.appendChild(deleteButton);
+            });
+        }
+    }
+
+    // Função para imprimir a avaliação atual
+    function imprimirAvaliacao() {
+        calcularNotas(); // Garante que as médias e nota final estão atualizadas com os valores atuais do formulário
+        window.print();
+    }
+
+    // Inicialização da página
+    window.onload = function() {
+        calcularNotas();
+        atualizarTabelaResumo();
+        document.getElementById('imprimirBtn').style.display = 'none'; // Botão de imprimir começa oculto
+
+        // Adiciona classes para facilitar a coleta de dados das observações (se ainda não tiverem)
+        document.querySelectorAll('#tabelaTrabalho tbody input[type="text"]').forEach(input => {
+            if (!input.classList.contains('obs-trabalho')) {
+                input.classList.add('obs-trabalho');
+            }
+        });
+        document.querySelectorAll('#tabelaApresentacao tbody input[type="text"]').forEach(input => {
+            if (!input.classList.contains('obs-apresentacao')) {
+                input.classList.add('obs-apresentacao');
+            }
+        });
+    };
+</script>
+
+</body>
+</html>
